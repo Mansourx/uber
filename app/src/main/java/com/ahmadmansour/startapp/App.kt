@@ -1,4 +1,4 @@
-package com.ahmadnaser.startapp
+package com.ahmadmansour.startapp
 
 
 import android.app.Application
@@ -26,10 +26,10 @@ import android.app.Application
             )
 */
     //4-a Create Example on parse name,phone
-    //4-b Use the following code to inser data
+    //4-b Use the following code to insert data
             val obj = ParseObject("Example")
             obj.put("name","Ahmad")
-            obj.put("phone","00970599042502")
+            obj.put("phone","00971506708115")
 
 
 
