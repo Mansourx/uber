@@ -1,12 +1,9 @@
 package com.ahmadmansour.startapp
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.ahmadmansour.startapp.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,10 +13,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showTips(view: View) {
-        Log.d("App","show Tips")
-
         var myIntent = Intent(this.baseContext, TipsActivity::class.java)
         startActivity(myIntent)
 
+    }
+
+    fun showPlaces(view: View) {
+        var myIntent = Intent(this.baseContext, PlacesActivity::class.java)
+        startActivity(myIntent)
     }
 }

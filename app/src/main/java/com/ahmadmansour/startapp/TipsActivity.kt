@@ -3,11 +3,9 @@ package com.ahmadmansour.startapp
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.Toast
 import com.ahmadmansour.model.Tip
 import kotlinx.android.synthetic.main.activity_tips.*
-import kotlinx.android.synthetic.main.tips_row.*
 
 class TipsActivity : AppCompatActivity() {
 
@@ -33,9 +31,9 @@ class TipsActivity : AppCompatActivity() {
 
         adapter = ArrayAdapter(this.baseContext, R.layout.tips_row, R.id.txt_tip_row,
                 listOfTipsStrings )
-        lst_tips_view.adapter = adapter
+        lst_tips.adapter = adapter
 
-        lst_tips_view.setOnItemClickListener { parent, view, position, id ->
+        lst_tips.setOnItemClickListener { parent, view, position, id ->
 
             Toast.makeText(this.baseContext, listOfTips[position].tipDescription, Toast.LENGTH_LONG).show()
         }

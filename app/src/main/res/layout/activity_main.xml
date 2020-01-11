@@ -17,4 +17,15 @@
         app:layout_constraintLeft_toRightOf="parent"
          />
 
+    <Button
+        android:id="@+id/btn_places"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showPlaces"
+        android:text="Places"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
 </android.support.constraint.ConstraintLayout>

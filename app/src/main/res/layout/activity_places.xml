@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TipsActivity">
-
+    tools:context=".PlacesActivity">
 
     <ListView
-        android:id="@+id/lst_tips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:id="@+id/lst_places"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </ListView>
+
 
 </LinearLayout>
