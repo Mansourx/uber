@@ -22,4 +22,9 @@ class MainActivity : AppCompatActivity() {
         var myIntent = Intent(this.baseContext, PlacesActivity::class.java)
         startActivity(myIntent)
     }
+
+    fun showRiderMap(view: View) {
+        var intent = Intent(this.baseContext, RaiderActivity::class.java)
+        startActivity(intent)
+    }
 }

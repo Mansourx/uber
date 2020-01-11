@@ -34,7 +34,6 @@ class TipsActivity : AppCompatActivity() {
         lst_tips.adapter = adapter
 
         lst_tips.setOnItemClickListener { parent, view, position, id ->
-
             Toast.makeText(this.baseContext, listOfTips[position].tipDescription, Toast.LENGTH_LONG).show()
         }
     }

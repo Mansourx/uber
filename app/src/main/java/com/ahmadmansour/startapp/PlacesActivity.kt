@@ -1,14 +1,12 @@
 package com.ahmadmansour.startapp
 
 import android.content.Context
-import android.media.Image
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.ahmadmansour.model.Place
 import kotlinx.android.synthetic.main.activity_places.*
 import kotlinx.android.synthetic.main.place_view_row.view.*
@@ -40,6 +38,10 @@ class PlacesActivity : AppCompatActivity() {
         listOfPlaces?.add(place6)
 
         lst_places.adapter = PlacesAdater(this)
+        lst_places.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            Toast.makeText(this, this.listOfPlaces!![i].placeDescription, Toast.LENGTH_LONG).show()
+
+        }
     }
 
     // POJO   /// POKO : Is a Pure kotlin class
