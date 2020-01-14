@@ -2,6 +2,9 @@ package com.ahmadmansour.startapp
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -15,8 +18,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlin.math.roundToInt
 
 class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -95,9 +100,15 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
                     .LENGTH_LONG).show()
             mMap.clear()
 
-            val dubai = LatLng(location!!.latitude, location!!.longitude)
-            mMap.addMarker(MarkerOptions().position(dubai).title("New Location, 00971506708115"))
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(dubai))
+            val location = LatLng(location!!.latitude, location!!.longitude)
+            mMap.addMarker(MarkerOptions()
+                    .position(location)
+                    .title("i am here")
+                    .snippet("this is my current location")
+                    .icon(BitmapDescriptorFactory.fromBitmap(scaleImage(resources, R.drawable
+                            .face, 50))))
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
         }
 
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -114,4 +125,26 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    fun scaleImage(res: Resources, id: Int, lessSideSize: Int) : Bitmap {
+        var b: Bitmap? = null
+        var o = BitmapFactory.Options()
+        BitmapFactory.decodeResource(res, id, o)
+        o.inJustDecodeBounds = true
+
+        var scale = 1
+        var sc = 0.0f
+
+        if (o.outHeight > o.outWidth) {
+            sc = (o.outHeight / lessSideSize).toFloat()
+            scale = sc.roundToInt()
+        } else {
+            sc = (o.outWidth / lessSideSize).toFloat()
+            scale = sc.roundToInt()
+        }
+
+        val o2 = BitmapFactory.Options()
+        o2.inSampleSize = scale
+        b = BitmapFactory.decodeResource(res, id, o2)
+        return b
+    }
 }
