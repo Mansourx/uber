@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.widget.Toast
+import com.ahmadmansour.model.Place
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlin.math.roundToInt
 
@@ -27,6 +29,8 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private var accessLocationRequestCode = 200
+    private var listOfPlaces: ArrayList<Place> = ArrayList()
+    private var currentMarker: Marker ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,28 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         checkPermission()
+        loadLocations()
+    }
+
+    private fun loadLocations() {
+        var place1 = Place(1,"Paris","Paris is the Capital of France asdasd asd asd dqwdwq da sd " +
+                "asdqwd a  qwnjoqwnflaskfnlaskf  sd awdwf askfmalkfma;mf;asf;lasf;"
+                , R.drawable.place_1, 48.8566, 2.3522)
+        var place2 = Place(2,"Spain","Spain has a mediterranean country", R.drawable.place_2, 40.4637, 3.7492)
+        var place3 = Place(3,"Turkey","Turkey is a middle eastern country", R.drawable.place_3, 38.9637, 35.2433)
+        var place4 = Place(4,"Italy","Italy is in Europe", R.drawable.place_4, 41.8719, 12.5674)
+        var place5 = Place(5,"Rio De Janeiro","Rio De Janeiro is in south America", R.drawable
+                .place_5, -22.9068, -43.1729)
+        var place6 = Place(6,"Jerusalem","Jerusalem is the capital of State of Palestine", R
+                .drawable
+                .place_6,31.7683 ,35.2137)
+
+        listOfPlaces?.add(place1)
+        listOfPlaces?.add(place2)
+        listOfPlaces?.add(place3)
+        listOfPlaces?.add(place4)
+        listOfPlaces?.add(place5)
+        listOfPlaces?.add(place6)
     }
 
     private fun checkPermission() {
@@ -75,11 +101,30 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        //25.2048° N, 55.2708° E
+/*        //25.2048° N, 55.2708° E
         // Add a marker in Dubai and move the camera
         val dubai = LatLng(25.2048, 55.2708)
         mMap.addMarker(MarkerOptions().position(dubai).title("new Location"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(dubai))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(dubai))*/
+
+        for (i in 0 until listOfPlaces.size) {
+            //mMap.clear()
+            var place = listOfPlaces[i]
+            val location = place.placeLocation?.let { LatLng(it.latitude, it.longitude) }
+            mMap.addMarker(location?.let {
+                MarkerOptions()
+                        .position(it)
+                        .title(place.placeName)
+                        .snippet(place.placeDescription)
+                        .icon(BitmapDescriptorFactory.fromBitmap(place.placeImg?.let { it1 ->
+                            scaleImage(resources, it1,
+                                    50)
+                        }))
+            })
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        }
+
     }
 
     var location: Location? = null
@@ -98,10 +143,14 @@ class RaiderActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(context, "user location has been changed" + location!!.latitude + ", "
                     + location!!.longitude, Toast
                     .LENGTH_LONG).show()
-            mMap.clear()
+            //mMap.clear()
 
             val location = LatLng(location!!.latitude, location!!.longitude)
-            mMap.addMarker(MarkerOptions()
+
+            if (currentMarker != null)
+                currentMarker?.remove()
+
+           currentMarker =  mMap.addMarker(MarkerOptions()
                     .position(location)
                     .title("i am here")
                     .snippet("this is my current location")

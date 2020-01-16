@@ -20,6 +20,8 @@ class PlacesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_places)
 
+
+
         var place1 = Place(1,"Paris","Paris is the Capital of France asdasd asd asd dqwdwq da sd " +
                 "asdqwd a  qwnjoqwnflaskfnlaskf  sd awdwf askfmalkfma;mf;asf;lasf;"
                 , R.drawable.place_1)
@@ -28,7 +30,8 @@ class PlacesActivity : AppCompatActivity() {
         var place4 = Place(4,"Italy","Italy is in Europe", R.drawable.place_4)
         var place5 = Place(5,"Rio De Janeiro","Rio De Janeiro is in south America", R.drawable
                 .place_5)
-        var place6 = Place(6,"Germany","Germany is great industrial country", R.drawable.place_6)
+        var place6 = Place(6,"Jerusalem","Jerusalem is the capital of State of Palestine", R.drawable
+                .place_6)
 
         listOfPlaces?.add(place1)
         listOfPlaces?.add(place2)
