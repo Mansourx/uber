@@ -16,15 +16,16 @@ import android.app.Application
             Parse.enableLocalDatastore(this)
 
             //1
-        //    ParseObject.registerSubclass(User::class.java)
-/*//    //2
+         //  ParseObject.registerSubclass(User::class.java)
+   //2
             Parse.initialize(Parse.Configuration.Builder(this)
                     .applicationId(BuildConfig.APP_ID)
                     .clientKey(BuildConfig.CLIENT_KEY)
                     .server(BuildConfig.SERVER_URL)
                     .build()
             )
-*/
+
+
     //4-a Create Example on parse name,phone
     //4-b Use the following code to insert data
             val obj = ParseObject("Example")
