@@ -5,23 +5,21 @@ import android.content.Context
 import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
-import com.parse.ParseException
-import com.parse.ParseObject
-import com.parse.SaveCallback
+import com.ahmadmansour.DAO.TipDAO
+import com.ahmadmansour.model.Tip
 import kotlinx.android.synthetic.main.activity_parse.*
 
 class ParseActivity : AppCompatActivity() {
 
     var progressDialog: ProgressDialog? = null
-
+    var tipDAO: TipDAO?= null
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +27,7 @@ class ParseActivity : AppCompatActivity() {
         progressDialog = ProgressDialog(this)
         progressDialog?.setCancelable(true)
         progressDialog?.setMessage("Wait for loading")
+        tipDAO = TipDAO()
 
     }
 
@@ -38,15 +37,22 @@ class ParseActivity : AppCompatActivity() {
         // CRUD create, read, update, delete from the server
         when (btn) {
             gbtn1 ->
+            {
                 // Check the connection
                 if (isNetworkConnected()) {
                     Log.e("connection:", isNetworkConnected().toString())
                 } else {
                     showAlertDialog("No Internet", "Check your internet connection!")
                 }
-            gbtn2 ->
-            // create in parse
-                createRecord()
+            }
+
+            gbtn2 -> {
+                // create in parse
+                progressDialog?.show()
+                var tip = Tip(1, "title", "this is a Description", "")
+                tipDAO?.createRecord(tip)
+                progressDialog?.cancel()
+            }
 //            gbtn3 ->
 //            // read in parse
 //
@@ -75,25 +81,7 @@ class ParseActivity : AppCompatActivity() {
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
     }
 
-    private fun createRecord() {
-        progressDialog?.show()
-        var record = ParseObject("Bob")
-        record.put("username", "Ahmad Mansour")
-        record.put("email", "ahmad@google.com")
-        record.put("country", "Palestine, Jerusalem")
 
-        record.saveInBackground { e ->
-            if (e == null) {
-                progressDialog?.cancel()
-                Log.i("App", "Record is Saved")
-            } else {
-                Log.e("App", "Record is not Saved" + e.printStackTrace())
-                progressDialog?.cancel()
-                showAlertDialog("Error", "Record Not Saved Please Try Again later!")
-
-            }
-        }
-    }
 
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
