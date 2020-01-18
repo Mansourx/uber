@@ -3,6 +3,7 @@ package com.ahmadmansour.DAO
 import android.util.Log
 import com.ahmadmansour.model.Tip
 import com.parse.ParseObject
+import com.parse.ParseQuery
 
 /**
  * Created by ahmad Mansour on 18,January,2020
@@ -32,6 +33,21 @@ class TipDAO {
                 Log.i("App", "Record is Saved")
             } else {
                 Log.e("App", "Record is not Saved" + e.printStackTrace())
+            }
+        }
+    }
+
+    fun updateRecord(tip: Tip) {
+        var query = ParseQuery<ParseObject>(Tip::class.java.simpleName)
+        query.getInBackground(tip.objectId) { obj, e ->
+            if (e == null) {
+                obj.put("title", tip.tipName)
+                obj.put("description", tip.tipDescription)
+                obj.saveInBackground { e ->
+                    Log.i("App", "Record is Saved")
+                }
+            } else {
+                createRecord(tip)
             }
         }
     }
