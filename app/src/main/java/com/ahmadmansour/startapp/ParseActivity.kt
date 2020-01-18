@@ -13,6 +13,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import com.parse.ParseException
+import com.parse.ParseObject
+import com.parse.SaveCallback
 import kotlinx.android.synthetic.main.activity_parse.*
 
 class ParseActivity : AppCompatActivity() {
@@ -26,7 +29,7 @@ class ParseActivity : AppCompatActivity() {
         progressDialog = ProgressDialog(this)
         progressDialog?.setCancelable(true)
         progressDialog?.setMessage("Wait for loading")
-        progressDialog?.show()
+
     }
 
     fun parseButtonClick(view: View) {
@@ -39,20 +42,11 @@ class ParseActivity : AppCompatActivity() {
                 if (isNetworkConnected()) {
                     Log.e("connection:", isNetworkConnected().toString())
                 } else {
-                    AlertDialog.Builder(this)
-                            .setTitle("No Internet")
-                            .setMessage("Check your internet connection!")
-                            .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                                // Lunch your code
-                            }
-                            .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, i: Int ->
-                                // Lunch your code on cancel
-                            }
-                            .setIcon(android.R.drawable.ic_dialog_alert).show()
+                    showAlertDialog("No Internet", "Check your internet connection!")
                 }
-//            gbtn2 ->
-//            // create in parse
-//
+            gbtn2 ->
+            // create in parse
+                createRecord()
 //            gbtn3 ->
 //            // read in parse
 //
@@ -65,6 +59,39 @@ class ParseActivity : AppCompatActivity() {
 //            gbtn6 ->
 //            // query in parse
 
+        }
+    }
+
+    private fun showAlertDialog(title: String, msg: String) {
+        AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
+                    // Lunch your code
+                }
+                .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, i: Int ->
+                    // Lunch your code on cancel
+                }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
+    }
+
+    private fun createRecord() {
+        progressDialog?.show()
+        var record = ParseObject("Bob")
+        record.put("username", "Ahmad Mansour")
+        record.put("email", "ahmad@google.com")
+        record.put("country", "Palestine, Jerusalem")
+
+        record.saveInBackground { e ->
+            if (e == null) {
+                progressDialog?.cancel()
+                Log.i("App", "Record is Saved")
+            } else {
+                Log.e("App", "Record is not Saved" + e.printStackTrace())
+                progressDialog?.cancel()
+                showAlertDialog("Error", "Record Not Saved Please Try Again later!")
+
+            }
         }
     }
 
