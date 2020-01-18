@@ -28,9 +28,9 @@ import android.app.Application
 
     //4-a Create Example on parse name,phone
     //4-b Use the following code to insert data
-            val obj = ParseObject("Example")
-            obj.put("name","Ahmad")
-            obj.put("phone","00971506708115")
+//            val obj = ParseObject("Example")
+//            obj.put("name","Ahmad")
+//            obj.put("phone","00971506708115")
 
 
 

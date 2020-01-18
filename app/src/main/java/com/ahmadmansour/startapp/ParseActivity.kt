@@ -5,20 +5,21 @@ import android.content.Context
 import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
+import com.ahmadmansour.DAO.TipDAO
+import com.ahmadmansour.model.Tip
 import kotlinx.android.synthetic.main.activity_parse.*
 
 class ParseActivity : AppCompatActivity() {
 
     var progressDialog: ProgressDialog? = null
-
+    var tipDAO: TipDAO?= null
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +27,8 @@ class ParseActivity : AppCompatActivity() {
         progressDialog = ProgressDialog(this)
         progressDialog?.setCancelable(true)
         progressDialog?.setMessage("Wait for loading")
-        progressDialog?.show()
+        tipDAO = TipDAO()
+
     }
 
     fun parseButtonClick(view: View) {
@@ -35,24 +37,22 @@ class ParseActivity : AppCompatActivity() {
         // CRUD create, read, update, delete from the server
         when (btn) {
             gbtn1 ->
+            {
                 // Check the connection
                 if (isNetworkConnected()) {
                     Log.e("connection:", isNetworkConnected().toString())
                 } else {
-                    AlertDialog.Builder(this)
-                            .setTitle("No Internet")
-                            .setMessage("Check your internet connection!")
-                            .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                                // Lunch your code
-                            }
-                            .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, i: Int ->
-                                // Lunch your code on cancel
-                            }
-                            .setIcon(android.R.drawable.ic_dialog_alert).show()
+                    showAlertDialog("No Internet", "Check your internet connection!")
                 }
-//            gbtn2 ->
-//            // create in parse
-//
+            }
+
+            gbtn2 -> {
+                // create in parse
+                progressDialog?.show()
+                var tip = Tip(1, "title", "this is a Description", "")
+                tipDAO?.createRecord(tip)
+                progressDialog?.cancel()
+            }
 //            gbtn3 ->
 //            // read in parse
 //
@@ -67,6 +67,21 @@ class ParseActivity : AppCompatActivity() {
 
         }
     }
+
+    private fun showAlertDialog(title: String, msg: String) {
+        AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
+                    // Lunch your code
+                }
+                .setNegativeButton(android.R.string.cancel) { dialogInterface: DialogInterface, i: Int ->
+                    // Lunch your code on cancel
+                }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
+    }
+
+
 
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
