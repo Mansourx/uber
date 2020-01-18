@@ -8,7 +8,6 @@ class Tip {
     var tipId: Int? = null
     var tipName: String? = null
     var tipDescription: String? = null
-
     constructor(id: Int, n: String, d: String) {
         this.tipId = id
         this.tipName = n
