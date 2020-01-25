@@ -56,8 +56,12 @@ class ParseActivity : AppCompatActivity() {
 //            gbtn3 ->
 //            // read in parse
 //
-//            gbtn4 ->
-//            // update in parse
+            gbtn4 -> {
+                // update in parse
+                var tip = Tip(1, "The Boss", "this is Ahmad The Description", "ff")
+                tipDAO?.updateRecord(tip)
+            }
+
 //
 //            gbtn5 ->
 //            // delete in parse
