@@ -3,6 +3,7 @@ package com.ahmadmansour.DAO
 import android.util.Log
 import com.ahmadmansour.model.Tip
 import com.parse.ParseObject
+import com.parse.ParseQuery
 
 
 /**
@@ -17,7 +18,7 @@ import com.parse.ParseObject
 
 class TipDAO {
   
-    fun createRecord(tip: Tip) 
+    fun createRecord(tip: Tip) {
         /* Tip::class.java.name,
          *  this this is how we get the record name we want to connect to
          */
